@@ -1,0 +1,13 @@
+- name: Configure webserver with nginx
+  hosts: webservers
+  become: True
+  tasks:
+    - name: install nginx
+      shell: amazon-linux-extras install nginx1 -y
+
+    - name: copy index.html
+      template: src=templates/index.html.j2 dest=/usr/share/nginx/html/index.html
+        mode=0644
+
+    - name: restart nginx
+      service: name=nginx state=restarted
